@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Special Prescription 💊</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --rose: #c0486e;
+  --blush: #f5d5e2;
+  --teal: #2a9d8f;
+  --teal-light: #7ecec7;
+  --gold: #d4a030;
+  --cream: #fffaf4;
+  --deep: #1a0d18;
+  --comic: "Comic Sans MS", "Segoe Print", "Patrick Hand", cursive;
+}
+
+body {
+  background: var(--deep);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--comic);
+  overflow: hidden;
+}
+
+/* ══════════════════════════════════
+   CARTOON BACKGROUND GIRLS
+══════════════════════════════════ */
+.cartoon-bg {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 0;
+  overflow: hidden;
+}
+.cartoon-girl {
+  position: absolute;
+  opacity: 0.18;
+  animation: floatGirl var(--gd, 7s) ease-in-out infinite alternate var(--gdelay, 0s);
+}
+@keyframes floatGirl {
+  from { transform: translateY(0px) rotate(var(--gr, -3deg)); }
+  to   { transform: translateY(-18px) rotate(var(--gr2, 3deg)); }
+}
+
+/* ══════════════════════════════════
+   FALLING ICONS
+══════════════════════════════════ */
+.petal-container { position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+.petal {
+  position: absolute; top: -40px;
+  animation: fall var(--fd,8s) linear infinite var(--fdelay,0s);
+  opacity: 0;
+}
+@keyframes fall {
+  0%   { transform: translateX(0) rotate(0deg); opacity: 0; top: -40px; }
+  10%  { opacity: 0.75; }
+  90%  { opacity: 0.5; }
+  100% { transform: translateX(var(--drift,60px)) rotate(540deg); opacity: 0; top: 110vh; }
+}
+
+/* ══════════════════════════════════
+   STAGE
+══════════════════════════════════ */
+#stage {
+  position: relative; z-index: 10;
+  display: flex; flex-direction: column; align-items: center;
+}
+
+/* ══════════════════════════════════
+   SCENE 1 — ENVELOPE
+══════════════════════════════════ */
+#scene-envelope {
+  display: flex; flex-direction: column; align-items: center; gap: 1.8rem;
+  opacity: 0; animation: fadeUp 1s ease forwards 0.6s;
+}
+.hint-text {
+  font-family: var(--comic);
+  font-size: 1.6rem;
+  color: var(--blush);
+  text-align: center;
+  line-height: 1.5;
+  text-shadow: 0 2px 12px rgba(192,72,110,0.6);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:0.75;} 50%{opacity:1;} }
+
+.envelope-wrap {
+  position: relative;
+  width: 260px; height: 170px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+.envelope-wrap:hover { transform: scale(1.06) rotate(-1.5deg); }
+.envelope-wrap:hover .env-flap { transform: rotateX(28deg); }
+
+.env-rx-bar {
+  position: absolute; top: 0; left: 0; right: 0; height: 28px;
+  background: linear-gradient(90deg, var(--teal), #1e7b6f);
+  border-radius: 6px 6px 0 0; z-index: 7;
+  display: flex; align-items: center; padding-left: 12px; gap: 6px;
+}
+.env-rx-bar span {
+  font-family: var(--comic); font-size: 0.85rem;
+  color: white; letter-spacing: 0.05em;
+}
+
+.env-body {
+  position: absolute; inset: 0;
+  background: linear-gradient(160deg, #e8b8cc, #c96080);
+  border-radius: 6px 6px 14px 14px;
+  box-shadow: 0 20px 60px rgba(192,72,110,0.5), 0 4px 20px rgba(0,0,0,0.5);
+}
+.env-left {
+  position: absolute; left:0; top:0; bottom:0; width:0;
+  border-style:solid; border-width:85px 0 85px 130px;
+  border-color:transparent transparent transparent #b85075; z-index:2;
+}
+.env-right {
+  position: absolute; right:0; top:0; bottom:0; width:0;
+  border-style:solid; border-width:85px 130px 85px 0;
+  border-color:transparent #a84068 transparent transparent; z-index:2;
+}
+.env-bottom {
+  position: absolute; bottom:0; left:0; right:0; width:0;
+  border-style:solid; border-width:0 130px 95px 130px;
+  border-color:transparent transparent #b05878 transparent; z-index:3;
+}
+.env-flap {
+  position: absolute; top:0; left:0; right:0; width:0;
+  border-style:solid; border-width:95px 130px 0 130px;
+  border-color:#cc7a98 transparent transparent transparent;
+  transform-origin:top center; transition:transform 0.4s ease; z-index:5;
+}
+.env-seal {
+  position: absolute; top:52%; left:50%;
+  transform: translate(-50%,-50%);
+  font-size: 2.2rem; z-index:6;
+  animation: heartbeat 1.2s ease-in-out infinite;
+  filter: drop-shadow(0 2px 10px rgba(42,157,143,0.9));
+  pointer-events: none;
+}
+@keyframes heartbeat {
+  0%,100%{transform:translate(-50%,-50%) scale(1);}
+  25%{transform:translate(-50%,-50%) scale(1.25);}
+  75%{transform:translate(-50%,-50%) scale(1.15);}
+}
+.letter-rise {
+  position: absolute; bottom:28px; left:50%;
+  transform: translateX(-50%) translateY(0);
+  width: 190px; height: 50px;
+  background: var(--cream); border-radius: 6px; z-index:10;
+  opacity:0; display:flex; align-items:center; justify-content:center;
+  font-family: var(--comic); font-size:1rem; color:var(--teal);
+  border-top: 3px solid var(--teal);
+}
+.tap-hint {
+  font-family: var(--comic); font-size: 0.8rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--teal-light); opacity: 0.75;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(40px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* opening */
+.envelope-wrap.opening .env-flap { animation: openFlap 0.8s ease forwards; }
+.envelope-wrap.opening .env-seal { display:none; }
+@keyframes openFlap { to { transform: rotateX(-180deg); } }
+.envelope-wrap.opening { animation: envRise 1.2s ease forwards 0.5s; }
+@keyframes envRise { to { opacity:0; transform:translateY(60px) scale(0.8); } }
+.envelope-wrap.opening .letter-rise { animation: letterUp 1s ease forwards 0.3s; }
+@keyframes letterUp {
+  0%   { opacity:0; transform:translateX(-50%) translateY(0); }
+  40%  { opacity:1; }
+  100% { opacity:1; transform:translateX(-50%) translateY(-190px); }
+}
+
+/* ══════════════════════════════════
+   SCENE 2 — PROPOSAL CARD
+══════════════════════════════════ */
+#scene-card { display:none; opacity:0; }
+#scene-card.visible {
+  display:block;
+  animation: cardReveal 1s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+@keyframes cardReveal {
+  from { opacity:0; transform:scale(0.6) rotateY(30deg); }
+  to   { opacity:1; transform:scale(1) rotateY(0deg); }
+}
+
+.card {
+  width: min(92vw, 420px);
+  background: var(--cream);
+  border-radius: 22px;
+  padding: 2.2rem 2.4rem 2.4rem;
+  position: relative; overflow: hidden;
+  box-shadow:
+    0 0 0 2px rgba(42,157,143,0.25),
+    0 28px 70px rgba(0,0,0,0.55),
+    inset 0 0 40px rgba(245,213,226,0.2);
+  text-align: center;
+}
+.card::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:5px;
+  background: linear-gradient(90deg, var(--teal), var(--rose), var(--teal));
+  border-radius: 22px 22px 0 0;
+}
+
+.card-inner-border {
+  position:absolute; inset:12px;
+  border: 1.5px dashed rgba(42,157,143,0.2);
+  border-radius:14px; pointer-events:none;
+}
+
+.rx-header {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom: 0.9rem; padding-bottom: 0.7rem;
+  border-bottom: 2px dashed rgba(42,157,143,0.3);
+  opacity:0; animation: fadeUp 0.7s ease forwards 0.2s;
+}
+.rx-symbol {
+  font-family: var(--comic); font-size:1.8rem;
+  color: var(--teal); font-weight:700;
+}
+.rx-label { font-family:var(--comic); font-size:0.7rem; color:var(--teal); text-align:right; line-height:1.6; }
+.rx-date  { font-family:var(--comic); font-size:0.65rem; color:#aaa; }
+
+.card-to {
+  font-family: var(--comic); font-size:1.6rem;
+  color: #7a3555; margin-bottom: 0.3rem;
+  opacity:0; animation: fadeUp 0.8s ease forwards 0.4s;
+}
+
+.big-heart {
+  display:block; font-size:3.5rem; margin: 0.3rem 0;
+  opacity:0; animation: bigReveal 0.8s ease forwards 0.7s, bigHeartbeat 1.4s ease-in-out infinite 1.5s;
+  filter: drop-shadow(0 4px 18px rgba(42,157,143,0.5));
+}
+@keyframes bigReveal {
+  from { opacity:0; transform:scale(0) rotate(-20deg); }
+  to   { opacity:1; transform:scale(1) rotate(0deg); }
+}
+@keyframes bigHeartbeat {
+  0%,100%{transform:scale(1);}
+  30%{transform:scale(1.2);}
+  80%{transform:scale(1.1);}
+}
+
+.card-question {
+  font-family: var(--comic); font-size:1.35rem;
+  line-height:1.55; color: #2a1520; margin:0.9rem 0 0.5rem;
+  opacity:0; animation: fadeUp 0.8s ease forwards 1s;
+}
+.card-question em { font-style:italic; color:var(--rose); }
+
+.rx-fields {
+  text-align:left; margin: 0.9rem 0;
+  border: 2px dashed rgba(42,157,143,0.3);
+  border-radius:10px; padding: 0.8rem 1rem;
+  background: rgba(42,157,143,0.05);
+  opacity:0; animation: fadeUp 0.8s ease forwards 1.15s;
+}
+.rx-field {
+  font-family: var(--comic); font-size:0.76rem;
+  color:#555; margin-bottom:0.3rem; line-height:1.5;
+}
+.rx-field strong { color:var(--teal); }
+
+.continue-btn {
+  margin-top: 1.3rem;
+  font-family: var(--comic); font-size: 0.9rem;
+  letter-spacing: 0.08em; padding: 0.8rem 2.2rem;
+  border: none; border-radius: 50px; cursor: pointer;
+  background: linear-gradient(135deg, var(--rose), #e87fa8);
+  color: white;
+  box-shadow: 0 8px 28px rgba(192,72,110,0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+  opacity:0; animation: fadeUp 0.8s ease forwards 1.35s;
+}
+.continue-btn:hover { transform:translateY(-3px) scale(1.04); box-shadow: 0 14px 36px rgba(192,72,110,0.55); }
+
+/* ══════════════════════════════════
+   SCENE 3 — POETRY PAGE
+══════════════════════════════════ */
+#scene-poetry { display:none; opacity:0; }
+#scene-poetry.visible {
+  display:block;
+  animation: cardReveal 1s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+
+.poetry-card {
+  width: min(92vw, 430px);
+  background: linear-gradient(160deg, #1a0d18, #0d1f1d);
+  border-radius: 22px;
+  padding: 2.4rem 2.4rem;
+  position: relative; overflow: hidden;
+  box-shadow:
+    0 0 0 2px rgba(42,157,143,0.3),
+    0 28px 70px rgba(0,0,0,0.7),
+    0 0 60px rgba(192,72,110,0.15);
+  text-align: center;
+}
+.poetry-card::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:5px;
+  background: linear-gradient(90deg, var(--rose), var(--teal), var(--rose));
+  border-radius:22px 22px 0 0;
+}
+/* sparkle corners */
+.poetry-card::after {
+  content:'✨ ✨';
+  position:absolute; bottom:1rem; right:1.5rem;
+  font-size:1rem; opacity:0.5;
+}
+
+.poetry-label {
+  font-family: var(--comic); font-size:0.7rem;
+  letter-spacing:0.22em; text-transform:uppercase;
+  color: var(--teal-light); opacity:0.8; margin-bottom:0.6rem;
+}
+.poetry-title {
+  font-family: var(--comic); font-size:1.5rem;
+  color: var(--blush); margin-bottom: 1.2rem;
+  text-shadow: 0 2px 12px rgba(192,72,110,0.5);
+}
+
+.poem-lines {
+  text-align: center;
+}
+.poem-line {
+  font-family: var(--comic); font-size: 0.97rem;
+  color: rgba(255,255,255,0.88); line-height: 2;
+  opacity: 0;
+  display: block;
+}
+.poem-line.em { color: var(--teal-light); font-style: italic; }
+.poem-line.br { margin-top: 0.6rem; }
+
+.poem-sign {
+  font-family: var(--comic); font-size: 0.85rem;
+  color: rgba(255,255,255,0.4); margin-top: 1.2rem;
+  border-top: 1px dashed rgba(255,255,255,0.1);
+  padding-top: 0.8rem;
+  opacity:0; animation: fadeUp 0.8s ease forwards 5s;
+}
+
+.answer-btn {
+  margin-top: 1.4rem;
+  font-family: var(--comic); font-size: 0.9rem;
+  letter-spacing: 0.08em; padding: 0.8rem 2.2rem;
+  border: none; border-radius: 50px; cursor: pointer;
+  background: linear-gradient(135deg, var(--teal), #1e7b6f);
+  color: white;
+  box-shadow: 0 8px 28px rgba(42,157,143,0.45);
+  transition: transform 0.2s, box-shadow 0.2s;
+  opacity:0; animation: fadeUp 0.8s ease forwards 5.5s;
+}
+.answer-btn:hover { transform:translateY(-3px) scale(1.04); }
+
+/* ══════════════════════════════════
+   SCENE 4 — YES/NO BUTTONS CARD
+══════════════════════════════════ */
+#scene-answer { display:none; opacity:0; }
+#scene-answer.visible {
+  display:block;
+  animation: cardReveal 1s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+
+.answer-card {
+  width: min(92vw, 420px);
+  background: var(--cream);
+  border-radius: 22px;
+  padding: 2.2rem 2.4rem 2.6rem;
+  text-align: center; position:relative; overflow:hidden;
+  box-shadow: 0 0 0 2px rgba(192,72,110,0.25), 0 28px 70px rgba(0,0,0,0.55);
+}
+.answer-card::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:5px;
+  background: linear-gradient(90deg, var(--rose), var(--teal), var(--rose));
+  border-radius:22px 22px 0 0;
+}
+.answer-big-emoji {
+  font-size:3rem; display:block; margin-bottom:0.6rem;
+  animation: bigHeartbeat 1.4s ease-in-out infinite;
+}
+.answer-q {
+  font-family: var(--comic); font-size:1.4rem;
+  color: #2a1520; line-height:1.5; margin-bottom:0.5rem;
+}
+.answer-q em { color:var(--rose); font-style:italic; }
+.answer-hint {
+  font-family: var(--comic); font-size:0.8rem;
+  color:#a07080; margin-bottom:1.5rem;
+  font-style:italic;
+}
+
+.btn-row { display:flex; gap:1.2rem; justify-content:center; flex-wrap:wrap; }
+.btn {
+  font-family: var(--comic); font-size: 0.88rem;
+  letter-spacing:0.06em; padding:0.85rem 1.8rem;
+  border:none; border-radius:50px; cursor:pointer;
+  transition:transform 0.2s, box-shadow 0.2s;
+  position:relative; overflow:hidden;
+}
+.btn-yes {
+  background: linear-gradient(135deg, var(--teal), #1e7b6f);
+  color:white; box-shadow: 0 8px 28px rgba(42,157,143,0.45);
+}
+.btn-yes:hover { transform:translateY(-3px) scale(1.04); }
+.btn-no {
+  background:white; color:#b07080;
+  border:2px solid rgba(192,72,110,0.3);
+}
+#btn-no-el { transition:all 0.12s ease; }
+
+/* ══════════════════════════════════
+   SCENE 5 — YES CELEBRATION
+══════════════════════════════════ */
+#scene-yes { display:none; opacity:0; text-align:center; }
+#scene-yes.visible {
+  display:block;
+  animation: cardReveal 1s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+.yes-card {
+  width: min(92vw, 430px);
+  background: linear-gradient(160deg, #0f5f56, #1e1428);
+  border-radius: 22px; padding:2.8rem 2.4rem;
+  box-shadow: 0 28px 70px rgba(0,0,0,0.6), 0 0 70px rgba(42,157,143,0.3);
+  color:white; position:relative; overflow:hidden;
+  text-align:center;
+}
+.yes-card::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:5px;
+  background: linear-gradient(90deg, var(--teal), var(--rose), var(--teal));
+  border-radius:22px 22px 0 0;
+}
+.yes-rx-bar {
+  background: var(--teal); border-radius:10px;
+  padding:0.4rem 1.2rem; display:inline-block;
+  font-family:var(--comic); font-size:0.8rem;
+  color:white; margin-bottom:1.2rem;
+}
+.yes-emoji { font-size:3.5rem; display:block; margin-bottom:0.4rem;
+  animation: bigHeartbeat 1s ease-in-out infinite; }
+.yes-title {
+  font-family: var(--comic); font-size:3rem;
+  color:white; margin-bottom:0.8rem;
+  text-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 40px rgba(42,157,143,0.6);
+}
+.yes-prescription {
+  background:rgba(255,255,255,0.08);
+  border: 2px dashed rgba(42,157,143,0.4);
+  border-radius:12px; padding:1rem 1.2rem;
+  margin:0.8rem 0; text-align:left; position:relative;
+}
+.yes-prescription::before {
+  content:'Rx';
+  position:absolute; top:-12px; left:14px;
+  background:#0f5f56; padding:0 8px;
+  font-family:var(--comic); font-size:1.1rem;
+  color:var(--teal-light); font-weight:bold;
+}
+.yes-presc-line {
+  font-family:var(--comic); font-size:0.88rem;
+  line-height:1.8; color:rgba(255,255,255,0.88);
+}
+.yes-presc-line strong { color:var(--teal-light); }
+.yes-sign {
+  font-family:var(--comic); font-size:0.9rem;
+  color:rgba(255,255,255,0.45); margin-top:0.8rem; text-align:right;
+}
+
+/* ══════════════════════════════════
+   CONFETTI & FLOATERS
+══════════════════════════════════ */
+.confetti-piece {
+  position:fixed; top:-20px; pointer-events:none; z-index:999;
+  border-radius:2px;
+  animation:confettiFall var(--cfd,3s) ease-in forwards var(--cfdelay,0s);
+}
+@keyframes confettiFall {
+  0%   { transform:translateX(0) rotateZ(0); opacity:1; top:-20px; }
+  100% { transform:translateX(var(--cfdrift,0px)) rotateZ(720deg); opacity:0; top:110vh; }
+}
+.float-icon {
+  position:fixed; pointer-events:none; z-index:998;
+  font-size:var(--hs,1.5rem);
+  animation:floatUp var(--hd,3s) ease-out forwards var(--hdel,0s);
+  bottom:-60px;
+}
+@keyframes floatUp {
+  0%   { opacity:0; transform:translateY(0) scale(0.5) rotate(var(--hr,0deg)); }
+  20%  { opacity:1; }
+  80%  { opacity:0.7; }
+  100% { opacity:0; transform:translateY(-110vh) scale(1.1) rotate(var(--hr2,15deg)); }
+}
+</style>
+</head>
+<body>
+
+<!-- Cartoon Background -->
+<div class="cartoon-bg" id="cartoonBg"></div>
+
+<!-- Falling Icons -->
+<div class="petal-container" id="petals"></div>
+
+<div id="stage">
+
+  <!-- ── SCENE 1: Envelope ── -->
+  <div id="scene-envelope">
+    <p class="hint-text">A special prescription...<br>just for you 💊</p>
+    <div class="envelope-wrap" id="envelope" onclick="openEnvelope()">
+      <div class="env-rx-bar">
+        <span>✚ Rx Prescription</span>
+      </div>
+      <div class="env-body"></div>
+      <div class="env-left"></div>
+      <div class="env-right"></div>
+      <div class="env-bottom"></div>
+      <div class="env-flap"></div>
+      <div class="env-seal">🩺</div>
+      <div class="letter-rise">open this 💊</div>
+    </div>
+    <p class="tap-hint">tap to open prescription</p>
+  </div>
+
+  <!-- ── SCENE 2: Proposal Card ── -->
+  <div id="scene-card">
+    <div class="card">
+      <div class="card-inner-border"></div>
+      <div class="rx-header">
+        <div>
+          <div class="rx-symbol">Rx</div>
+          <div class="rx-date">Date: Freshers Party 🎉</div>
+        </div>
+        <div class="rx-label">MBBS Student<br><span style="color:var(--teal)">❤️‍🩹 Cardiology Wing</span></div>
+      </div>
+      <p class="card-to">Dear Senior Ma'am,</p>
+      <span class="big-heart">❤️‍🩹</span>
+      <p class="card-question">
+        You've already diagnosed<br>
+        my heart — now will you be<br>
+        my <em>Freshers Party Date?</em>
+      </p>
+      <div class="rx-fields">
+        <p class="rx-field">🩺 Diagnosis: <strong>Irreversible admiration for Senior Ma'am</strong></p>
+        <p class="rx-field">💊 Prescription: <strong>One magical freshers party together</strong></p>
+        <p class="rx-field">📋 Dosage: <strong>All party long, one dance at a time</strong></p>
+        <p class="rx-field">⚠️ Side effects: <strong>Laughter, joy & unforgettable memories</strong></p>
+      </div>
+      <button class="continue-btn" onclick="showPoetry()">Read something special 💌</button>
+    </div>
+  </div>
+
+  <!-- ── SCENE 3: Poetry ── -->
+  <div id="scene-poetry">
+    <div class="poetry-card">
+      <p class="poetry-label">✨ a little poem just for you ✨</p>
+      <p class="poetry-title">Before I ask... 🌹</p>
+      <div class="poem-lines" id="poemLines">
+        <span class="poem-line">In crowded halls of white coats and books,</span>
+        <span class="poem-line em">I found myself lost in your smile and looks.</span>
+        <span class="poem-line br">Between anatomy charts and late night notes,</span>
+        <span class="poem-line">you're the only diagnosis my poor heart quotes.</span>
+        <span class="poem-line br em">They say doctors heal what the eyes can't see —</span>
+        <span class="poem-line">but only you could fix what's wrong with me.</span>
+        <span class="poem-line br">No stethoscope needed, no textbook required,</span>
+        <span class="poem-line em">just one look from you and my heart gets wired. 💓</span>
+        <span class="poem-line br">So before this freshers party fades to a memory,</span>
+        <span class="poem-line">I want to make one with you — just you and me. 🎉</span>
+        <span class="poem-line br em">Senior Ma'am, you're my favourite chapter yet,</span>
+        <span class="poem-line">the one I never want my heart to forget. 🌹</span>
+      </div>
+      <p class="poem-sign">— your junior, with a very full heart 🩺</p>
+      <button class="answer-btn" onclick="showAnswer()">Now for the big question... 💊</button>
+    </div>
+  </div>
+
+  <!-- ── SCENE 4: Yes/No ── -->
+  <div id="scene-answer">
+    <div class="answer-card">
+      <span class="answer-big-emoji">💊🩺💊</span>
+      <p class="answer-q">
+        So, Senior Ma'am...<br>
+        <em>Will you be my Freshers Party date?</em>
+      </p>
+      <p class="answer-hint">No stethoscope needed — just your heart! 💓</p>
+      <div class="btn-row">
+        <button class="btn btn-yes" onclick="sayYes()">Yes, Doctor! 💉</button>
+        <button class="btn btn-no" id="btn-no-el"
+          onmouseover="runAway(this)" ontouchstart="runAway(this)">Need a 2nd opinion...</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SCENE 5: YES! ── -->
+  <div id="scene-yes">
+    <div class="yes-card">
+      <div class="yes-rx-bar">✚ &nbsp;DIAGNOSIS CONFIRMED&nbsp; ✚</div>
+      <span class="yes-emoji">🎉</span>
+      <p class="yes-title">YES!!!</p>
+      <div class="yes-prescription">
+        <p class="yes-presc-line"><strong>Patient:</strong> One very happy junior 🥹</p>
+        <p class="yes-presc-line"><strong>Rx:</strong> One unforgettable freshers party</p>
+        <p class="yes-presc-line"><strong>Dosage:</strong> Together, all party long 💃🕺</p>
+        <p class="yes-presc-line"><strong>Refills:</strong> Endless memories ✨</p>
+      </div>
+      <p class="yes-sign">— Signed with a full heart 🩺❤️‍🩹</p>
+    </div>
+  </div>
+
+</div><!-- /stage -->
+
+<script>
+/* ══════════════════════════════
+   SVG CARTOON GIRL FIGURES
+══════════════════════════════ */
+function makeDoctorGirl(variant) {
+  const svgs = [
+    // variant 0: girl with stethoscope, reading book
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 180" fill="none">
+      <!-- body -->
+      <rect x="35" y="90" width="50" height="60" rx="8" fill="#f5c2d0"/>
+      <!-- white coat -->
+      <rect x="30" y="88" width="60" height="65" rx="8" fill="white" opacity="0.9"/>
+      <rect x="30" y="88" width="22" height="65" rx="4" fill="#e8eef8"/>
+      <rect x="68" y="88" width="22" height="65" rx="4" fill="#e8eef8"/>
+      <!-- collar teal -->
+      <rect x="50" y="88" width="20" height="30" rx="4" fill="#2a9d8f"/>
+      <!-- neck -->
+      <rect x="50" y="75" width="20" height="20" rx="5" fill="#f5c0a0"/>
+      <!-- head -->
+      <ellipse cx="60" cy="58" rx="25" ry="27" fill="#f5c0a0"/>
+      <!-- hair -->
+      <ellipse cx="60" cy="38" rx="26" ry="16" fill="#3d2010"/>
+      <rect x="34" y="38" width="10" height="30" rx="5" fill="#3d2010"/>
+      <rect x="76" y="38" width="10" height="30" rx="5" fill="#3d2010"/>
+      <!-- bun -->
+      <circle cx="60" cy="25" r="10" fill="#3d2010"/>
+      <!-- eyes -->
+      <ellipse cx="51" cy="58" rx="4" ry="5" fill="white"/>
+      <ellipse cx="69" cy="58" rx="4" ry="5" fill="white"/>
+      <circle cx="52" cy="59" r="2.5" fill="#3d2010"/>
+      <circle cx="70" cy="59" r="2.5" fill="#3d2010"/>
+      <circle cx="53" cy="58" r="1" fill="white"/>
+      <circle cx="71" cy="58" r="1" fill="white"/>
+      <!-- blush -->
+      <ellipse cx="44" cy="65" rx="5" ry="3" fill="#f09090" opacity="0.5"/>
+      <ellipse cx="76" cy="65" rx="5" ry="3" fill="#f09090" opacity="0.5"/>
+      <!-- smile -->
+      <path d="M52 70 Q60 77 68 70" stroke="#c06060" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <!-- stethoscope -->
+      <path d="M45 100 Q35 115 40 130 Q45 145 55 140" stroke="#2a9d8f" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <circle cx="55" cy="142" r="5" fill="#2a9d8f"/>
+      <!-- book in hand -->
+      <rect x="68" y="115" width="28" height="35" rx="3" fill="#c9547a"/>
+      <rect x="70" y="118" width="24" height="29" rx="2" fill="#f5d0dc"/>
+      <line x1="82" y1="118" x2="82" y2="147" stroke="#c9547a" stroke-width="1.5"/>
+      <!-- arms -->
+      <rect x="20" y="92" width="14" height="35" rx="7" fill="#f5c0a0"/>
+      <rect x="86" y="92" width="14" height="35" rx="7" fill="#f5c0a0"/>
+      <!-- legs -->
+      <rect x="40" y="148" width="16" height="32" rx="8" fill="#4a3060"/>
+      <rect x="64" y="148" width="16" height="32" rx="8" fill="#4a3060"/>
+      <!-- shoes -->
+      <ellipse cx="48" cy="181" rx="10" ry="5" fill="#2a1520"/>
+      <ellipse cx="72" cy="181" rx="10" ry="5" fill="#2a1520"/>
+    </svg>`,
+
+    // variant 1: girl waving, no book
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 180" fill="none">
+      <rect x="32" y="88" width="56" height="68" rx="8" fill="white" opacity="0.9"/>
+      <rect x="32" y="88" width="20" height="68" rx="4" fill="#d4eaf7"/>
+      <rect x="68" y="88" width="20" height="68" rx="4" fill="#d4eaf7"/>
+      <rect x="48" y="88" width="24" height="28" rx="4" fill="#c9547a"/>
+      <rect x="48" y="73" width="24" height="20" rx="5" fill="#f5c0a0"/>
+      <ellipse cx="60" cy="56" rx="25" ry="27" fill="#f5c0a0"/>
+      <ellipse cx="60" cy="36" rx="27" ry="15" fill="#1a0a10"/>
+      <rect x="33" y="36" width="10" height="28" rx="5" fill="#1a0a10"/>
+      <rect x="77" y="36" width="10" height="28" rx="5" fill="#1a0a10"/>
+      <circle cx="60" cy="24" r="9" fill="#1a0a10"/>
+      <!-- ponytail -->
+      <path d="M70 30 Q90 20 85 50" stroke="#1a0a10" stroke-width="8" stroke-linecap="round" fill="none"/>
+      <ellipse cx="50" cy="56" rx="4" ry="5" fill="white"/>
+      <ellipse cx="70" cy="56" rx="4" ry="5" fill="white"/>
+      <circle cx="51" cy="57" r="2.5" fill="#1a0a10"/>
+      <circle cx="71" cy="57" r="2.5" fill="#1a0a10"/>
+      <circle cx="52" cy="56" r="1" fill="white"/>
+      <circle cx="72" cy="56" r="1" fill="white"/>
+      <ellipse cx="43" cy="63" rx="5" ry="3" fill="#f09090" opacity="0.5"/>
+      <ellipse cx="77" cy="63" rx="5" ry="3" fill="#f09090" opacity="0.5"/>
+      <path d="M51 68 Q60 76 69 68" stroke="#c06060" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <!-- waving arm -->
+      <path d="M86 95 Q110 75 105 60" stroke="#f5c0a0" stroke-width="13" stroke-linecap="round" fill="none"/>
+      <path d="M105 60 Q108 50 103 48" stroke="#f5c0a0" stroke-width="5" stroke-linecap="round" fill="none"/>
+      <path d="M105 60 Q112 55 110 50" stroke="#f5c0a0" stroke-width="5" stroke-linecap="round" fill="none"/>
+      <rect x="18" y="92" width="14" height="32" rx="7" fill="#f5c0a0"/>
+      <rect x="38" y="150" width="16" height="30" rx="8" fill="#6a4080"/>
+      <rect x="62" y="150" width="16" height="30" rx="8" fill="#6a4080"/>
+      <ellipse cx="46" cy="181" rx="10" ry="5" fill="#2a1520"/>
+      <ellipse cx="70" cy="181" rx="10" ry="5" fill="#2a1520"/>
+    </svg>`,
+
+    // variant 2: sitting girl with phone
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 160" fill="none">
+      <rect x="28" y="80" width="64" height="55" rx="8" fill="white" opacity="0.9"/>
+      <rect x="28" y="80" width="22" height="55" rx="4" fill="#e8f4f0"/>
+      <rect x="70" y="80" width="22" height="55" rx="4" fill="#e8f4f0"/>
+      <rect x="46" y="80" width="28" height="28" rx="4" fill="#2a9d8f"/>
+      <rect x="46" y="68" width="28" height="18" rx="5" fill="#f5c0a0"/>
+      <ellipse cx="60" cy="50" rx="24" ry="26" fill="#f5c0a0"/>
+      <ellipse cx="60" cy="30" rx="25" ry="14" fill="#5a2a10"/>
+      <rect x="35" y="30" width="9" height="26" rx="4" fill="#5a2a10"/>
+      <rect x="76" y="30" width="9" height="26" rx="4" fill="#5a2a10"/>
+      <!-- two buns -->
+      <circle cx="40" cy="25" r="9" fill="#5a2a10"/>
+      <circle cx="80" cy="25" r="9" fill="#5a2a10"/>
+      <ellipse cx="50" cy="50" rx="4" ry="4.5" fill="white"/>
+      <ellipse cx="70" cy="50" rx="4" ry="4.5" fill="white"/>
+      <circle cx="51" cy="51" r="2.5" fill="#2a1010"/>
+      <circle cx="71" cy="51" r="2.5" fill="#2a1010"/>
+      <circle cx="52" cy="50" r="1" fill="white"/>
+      <circle cx="72" cy="50" r="1" fill="white"/>
+      <ellipse cx="43" cy="57" rx="5" ry="3" fill="#f09090" opacity="0.5"/>
+      <ellipse cx="77" cy="57" rx="5" ry="3" fill="#f09090" opacity="0.5"/>
+      <path d="M52 63 Q60 70 68 63" stroke="#c06060" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <!-- phone in hand -->
+      <rect x="74" y="95" width="18" height="28" rx="4" fill="#1a1a2e"/>
+      <rect x="76" y="98" width="14" height="20" rx="2" fill="#7ecec7"/>
+      <!-- sitting legs -->
+      <path d="M38 132 Q25 145 30 158" stroke="#4a3060" stroke-width="14" stroke-linecap="round" fill="none"/>
+      <path d="M82 132 Q95 145 90 158" stroke="#4a3060" stroke-width="14" stroke-linecap="round" fill="none"/>
+      <ellipse cx="30" cy="159" rx="9" ry="5" fill="#2a1520"/>
+      <ellipse cx="90" cy="159" rx="9" ry="5" fill="#2a1520"/>
+    </svg>`,
+
+    // variant 3: girl with heart balloon
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 200" fill="none">
+      <!-- balloon string -->
+      <path d="M85 70 Q90 100 82 130" stroke="#888" stroke-width="1.5" stroke-dasharray="3,3" fill="none"/>
+      <!-- heart balloon -->
+      <path d="M75 40 Q75 28 85 28 Q95 28 95 40 Q95 52 85 62 Q75 52 75 40Z" fill="#c9547a"/>
+      <path d="M95 40 Q95 28 85 28" stroke="rgba(255,255,255,0.4)" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <!-- body -->
+      <rect x="30" y="110" width="60" height="60" rx="8" fill="#f9d0e0"/>
+      <!-- dress -->
+      <path d="M30 125 L20 175 L100 175 L90 125 Z" fill="#c9547a" opacity="0.9"/>
+      <rect x="44" y="108" width="32" height="22" rx="5" fill="#f5c0a0"/>
+      <!-- head -->
+      <ellipse cx="60" cy="88" rx="26" ry="27" fill="#f5c0a0"/>
+      <!-- hair -->
+      <ellipse cx="60" cy="66" rx="27" ry="16" fill="#2a1010"/>
+      <rect x="33" y="67" width="10" height="34" rx="5" fill="#2a1010"/>
+      <!-- long hair right side -->
+      <path d="M87 67 Q100 90 95 120" stroke="#2a1010" stroke-width="9" stroke-linecap="round" fill="none"/>
+      <circle cx="60" cy="52" r="8" fill="#2a1010"/>
+      <!-- hair clip -->
+      <rect x="72" y="62" width="10" height="6" rx="3" fill="#c9547a"/>
+      <ellipse cx="50" cy="88" rx="4" ry="4.5" fill="white"/>
+      <ellipse cx="70" cy="88" rx="4" ry="4.5" fill="white"/>
+      <circle cx="51" cy="89" r="2.5" fill="#2a1010"/>
+      <circle cx="71" cy="89" r="2.5" fill="#2a1010"/>
+      <circle cx="52" cy="88" r="1" fill="white"/>
+      <circle cx="72" cy="88" r="1" fill="white"/>
+      <ellipse cx="43" cy="95" rx="6" ry="3.5" fill="#f09090" opacity="0.5"/>
+      <ellipse cx="77" cy="95" rx="6" ry="3.5" fill="#f09090" opacity="0.5"/>
+      <path d="M52 100 Q60 108 68 100" stroke="#c06060" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <!-- arm holding balloon -->
+      <path d="M86 118 Q92 100 85 72" stroke="#f5c0a0" stroke-width="10" stroke-linecap="round" fill="none"/>
+      <!-- other arm -->
+      <path d="M34 118 Q22 130 25 148" stroke="#f5c0a0" stroke-width="10" stroke-linecap="round" fill="none"/>
+      <!-- legs -->
+      <rect x="40" y="170" width="16" height="28" rx="8" fill="#2a1010"/>
+      <rect x="64" y="170" width="16" height="28" rx="8" fill="#2a1010"/>
+      <ellipse cx="48" cy="199" rx="10" ry="5" fill="#1a0a10"/>
+      <ellipse cx="72" cy="199" rx="10" ry="5" fill="#1a0a10"/>
+    </svg>`
+  ];
+  return svgs[variant % svgs.length];
+}
+
+// Place cartoon girls around the background
+const bg = document.getElementById('cartoonBg');
+const positions = [
+  { left:'2%',   top:'5%',  size:110, v:0 },
+  { left:'75%',  top:'3%',  size:100, v:1 },
+  { left:'88%',  top:'50%', size:95,  v:2 },
+  { left:'0%',   top:'55%', size:105, v:3 },
+  { left:'40%',  top:'2%',  size:90,  v:0 },
+  { left:'60%',  top:'75%', size:95,  v:1 },
+  { left:'5%',   top:'80%', size:100, v:2 },
+  { left:'82%',  top:'20%', size:90,  v:3 },
+  { left:'25%',  top:'85%', size:85,  v:0 },
+];
+positions.forEach((p, i) => {
+  const wrap = document.createElement('div');
+  wrap.className = 'cartoon-girl';
+  wrap.innerHTML = makeDoctorGirl(p.v);
+  wrap.style.cssText = `
+    left:${p.left}; top:${p.top};
+    width:${p.size}px;
+    --gd:${(5+Math.random()*4).toFixed(1)}s;
+    --gdelay:-${(Math.random()*4).toFixed(1)}s;
+    --gr:${(Math.random()*8-4).toFixed(1)}deg;
+    --gr2:${(Math.random()*8-4).toFixed(1)}deg;
+  `;
+  bg.appendChild(wrap);
+});
+
+/* Falling icons */
+const petalsEl = document.getElementById('petals');
+const icons = ['🌸','💊','🩺','❤️‍🩹','🌹','💉','✚','🎉','💖'];
+for (let i = 0; i < 20; i++) {
+  const p = document.createElement('div');
+  p.className = 'petal';
+  p.textContent = icons[Math.floor(Math.random()*icons.length)];
+  p.style.cssText = `left:${Math.random()*100}%;
+    --fd:${(Math.random()*8+6).toFixed(1)}s;
+    --fdelay:-${(Math.random()*12).toFixed(1)}s;
+    --drift:${(Math.random()*120-60).toFixed(0)}px;
+    font-size:${(Math.random()*0.8+0.8).toFixed(1)}rem;`;
+  petalsEl.appendChild(p);
+}
+
+/* ── Scene transitions ── */
+function openEnvelope() {
+  const env = document.getElementById('envelope');
+  if (env.classList.contains('opening')) return;
+  env.classList.add('opening');
+  env.style.pointerEvents = 'none';
+  setTimeout(() => {
+    document.getElementById('scene-envelope').style.display = 'none';
+    document.getElementById('scene-card').classList.add('visible');
+  }, 1600);
+}
+
+function showPoetry() {
+  document.getElementById('scene-card').style.display = 'none';
+  document.getElementById('scene-poetry').classList.add('visible');
+  animatePoem();
+}
+
+function animatePoem() {
+  const lines = document.querySelectorAll('#poemLines .poem-line');
+  lines.forEach((line, i) => {
+    setTimeout(() => {
+      line.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+      line.style.opacity = '1';
+      line.style.transform = 'translateY(0)';
+    }, i * 280 + 200);
+    line.style.transform = 'translateY(10px)';
+  });
+}
+
+function showAnswer() {
+  document.getElementById('scene-poetry').style.display = 'none';
+  document.getElementById('scene-answer').classList.add('visible');
+}
+
+let noMoved = 0;
+function runAway(btn) {
+  noMoved++;
+  if (noMoved > 5) { btn.style.display = 'none'; return; }
+  const vw = window.innerWidth, vh = window.innerHeight;
+  const mx = (Math.random()-0.5)*(vw*0.5);
+  const my = (Math.random()-0.5)*(vh*0.35);
+  btn.style.transform = `translate(${mx}px,${my}px) rotate(${(Math.random()-0.5)*20}deg)`;
+  btn.style.transition = 'transform 0.12s ease';
+}
+
+function sayYes() {
+  document.getElementById('scene-answer').style.display = 'none';
+  document.getElementById('scene-yes').classList.add('visible');
+  launchConfetti();
+  launchIcons();
+}
+
+function launchConfetti() {
+  const colors = ['#2a9d8f','#c9547a','#7ecec7','#f5d5e2','#fff','#d4a030','#1e7b6f'];
+  for (let i = 0; i < 130; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti-piece';
+    c.style.cssText = `left:${Math.random()*100}vw;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      width:${Math.random()*10+5}px;height:${Math.random()*10+5}px;
+      border-radius:${Math.random()>0.5?'50%':'2px'};
+      --cfd:${(Math.random()*2+2).toFixed(1)}s;
+      --cfdelay:${(Math.random()*1.5).toFixed(2)}s;
+      --cfdrift:${(Math.random()*200-100).toFixed(0)}px;`;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(), 5500);
+  }
+}
+
+function launchIcons() {
+  const h = ['❤️‍🩹','💊','🩺','🎉','💖','🌹','✨','💉','🥳','🎊'];
+  for (let i = 0; i < 28; i++) {
+    const el = document.createElement('div');
+    el.className = 'float-icon';
+    el.textContent = h[Math.floor(Math.random()*h.length)];
+    el.style.cssText = `left:${Math.random()*100}vw;
+      --hs:${(Math.random()*1.5+1).toFixed(1)}rem;
+      --hd:${(Math.random()*2+2.5).toFixed(1)}s;
+      --hdel:${(Math.random()*3).toFixed(2)}s;
+      --hr:${(Math.random()*30-15).toFixed(0)}deg;
+      --hr2:${(Math.random()*30-15).toFixed(0)}deg;`;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(), 7000);
+  }
+  setTimeout(launchIcons, 3500);
+}
+</script>
+</body>
+</html>
